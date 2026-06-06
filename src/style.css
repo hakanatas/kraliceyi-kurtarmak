@@ -1472,6 +1472,59 @@ header {
     font-size: 2.3rem;
   }
   
+  /* Make 3D book cover and video card more compact on mobile */
+  .book {
+    width: 160px;
+    height: 240px;
+  }
+  .book-title {
+    font-size: 1.4rem;
+  }
+  .book-ornament {
+    font-size: 2rem;
+  }
+  .book-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+  .book-author {
+    font-size: 0.75rem;
+  }
+  
+  /* Make video controls overlay always visible on touch screens */
+  .video-controls-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    padding: 8px;
+  }
+  .video-control-btn {
+    width: 34px;
+    height: 34px;
+  }
+  .video-icon {
+    font-size: 1rem;
+  }
+  
+  /* Make reverse pipeline responsive */
+  .pipeline {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+  }
+  .pipe-node {
+    width: 46px;
+    height: 46px;
+    font-size: 1.1rem;
+  }
+  .pipe-link {
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+  }
+  .pipe-link::before {
+    bottom: -1rem;
+    font-size: 0.95rem;
+  }
+  
   .scale-container {
     width: 100%;
     max-width: 320px;
@@ -1520,6 +1573,152 @@ header {
   
   .chest-card {
     width: 100%;
+  }
+}
+
+/* Extra mobile screen configurations (Portrait modal optimizations) */
+@media (max-width: 600px) {
+  .puzzle-panel {
+    padding: var(--space-md) var(--space-sm);
+  }
+  .close-btn {
+    top: var(--space-sm);
+    right: var(--space-sm);
+  }
+  .dialogue-box {
+    padding: var(--space-sm);
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+  .char-avatar {
+    font-size: 2.2rem;
+  }
+  .char-name {
+    font-size: 1rem;
+  }
+  .char-speech {
+    font-size: 0.9rem;
+  }
+  .question-card {
+    padding: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+  .question-title {
+    font-size: 0.85rem;
+  }
+  .question-text {
+    font-size: 0.95rem;
+  }
+  .vis-workarea {
+    padding: var(--space-sm);
+    min-height: 200px;
+    margin-bottom: var(--space-sm);
+  }
+  .submission-bar {
+    padding: var(--space-sm);
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-sm);
+  }
+  .input-container {
+    justify-content: space-between;
+  }
+}
+
+/* Device landscape configuration overrides */
+@media (max-height: 550px) and (orientation: landscape) {
+  header {
+    flex-direction: row;
+    padding: 8px 0;
+  }
+  .logo {
+    font-size: 1.1rem;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr 1.1fr;
+    gap: var(--space-md);
+    min-height: auto;
+    padding: var(--space-sm) 0;
+  }
+  .hero-left {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: var(--space-md);
+  }
+  .hero-left .book-container {
+    margin-bottom: 0;
+  }
+  .book {
+    width: 110px;
+    height: 160px;
+  }
+  .book-title {
+    font-size: 1rem;
+  }
+  .book-subtitle {
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+  }
+  .book-ornament {
+    font-size: 1.5rem;
+  }
+  .book-author {
+    font-size: 0.6rem;
+  }
+  .hero-title {
+    font-size: 1.6rem;
+    text-align: left;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+    text-align: left;
+    margin-bottom: var(--space-sm);
+    max-width: 100%;
+  }
+  .video-showcase {
+    max-width: 320px;
+    padding: 6px;
+  }
+  .video-caption {
+    font-size: 0.8rem;
+    margin-top: 4px;
+  }
+  .video-controls-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    padding: 6px;
+  }
+  .video-control-btn {
+    width: 30px;
+    height: 30px;
+  }
+  .video-icon {
+    font-size: 0.9rem;
+  }
+  
+  /* Puzzle panel landscape adjustments */
+  .puzzle-panel {
+    padding: var(--space-sm) var(--space-md);
+    max-height: 95vh;
+  }
+  .dialogue-box {
+    margin-bottom: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+  }
+  .char-avatar {
+    font-size: 1.8rem;
+  }
+  .question-card {
+    margin-bottom: var(--space-xs);
+  }
+  .vis-workarea {
+    min-height: 140px;
+    margin-bottom: var(--space-xs);
+    padding: var(--space-xs);
+  }
+  .submission-bar {
+    padding: var(--space-xs) var(--space-sm);
   }
 }
 
