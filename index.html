@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kraliçeyi Kurtarmak | İnteraktif Matematik Macerası</title>
+  <meta name="description" content="5. sınıf öğrencileri için Vladimir Tumanov'un 'Kraliçeyi Kurtarmak' kitabından uyarlanmış etkileşimli matematik oyunu." />
+  
+  <!-- Preconnect and CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Ambient Particle Background -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Ambient Magical Blobs -->
+  <div class="magical-auras" id="magicalAuras">
+    <div class="aura-blob aura-blob--indigo"></div>
+    <div class="aura-blob aura-blob--amber"></div>
+    <div class="aura-blob aura-blob--rose"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Top Bar Navigation & Health -->
+    <header class="container">
+      <div class="logo">👑 KRALİÇEYİ KURTARMAK</div>
+      
+      <div class="controls-group">
+        <!-- Magic Pencil Energy Tracker -->
+        <div class="pencil-tracker" id="pencilTracker" title="Sihirli Kalem Enerjisi">
+          <span style="font-size: 1.2rem; display: inline-flex; align-items: center; gap: 4px;">
+            ✏️ <span class="pencil-lbl">Sihirli Kalem Gücü:</span>
+          </span>
+          <div class="pencil-bar-outer">
+            <div class="pencil-bar-inner" id="pencilBar"></div>
+          </div>
+          <span style="font-size: 0.85rem; font-weight: bold;" id="pencilPercent">100%</span>
+        </div>
+
+        <!-- Background Animation Toggle -->
+        <button class="icon-btn" id="bgToggle" aria-label="Arka Plan Parçacıklarını Aç/Kapat" title="Arka Plan Parçacıklarını Aç/Kapat">
+          <span id="bgOnIcon" style="font-size: 1.1rem; line-height: 1;">✨</span>
+          <span id="bgOffIcon" style="font-size: 1.1rem; line-height: 1; display: none;">💤</span>
+        </button>
+
+        <!-- Mute/Sound Toggle -->
+        <button class="icon-btn" id="soundToggle" aria-label="Sesi Kapat/Aç">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="soundOnIcon">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="soundOffIcon" style="display:none;">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- App Screens -->
+    <main class="container flex-1">
+      
+      <!-- SCREEN 1: HERO / LANDING PAGE -->
+      <section class="screen screen--active" id="heroScreen">
+        <div class="hero-screen">
+          <!-- Floating 3D Book Cover -->
+          <div class="book-container" id="landingBook">
+            <div class="book">
+              <div class="book-cover">
+                <div class="book-subtitle">Matematik Macerası</div>
+                <div class="book-title">Kraliçeyi<br/>Kurtarmak</div>
+                <div class="book-ornament">💎</div>
+                <div class="book-author">Vladimir Tumanov</div>
+              </div>
+            </div>
+          </div>
+
+          <h1 class="hero-title">Matematiğin Sihirli Dünyasına Hoş Geldin!</h1>
+          <p class="hero-subtitle">
+            Aleks ve arkadaşlarının gizemli dünyasına ortak ol. Kral Recher'in zindanlarında hapsedilen Kraliçe Jayden'ı kurtarmak için matematik bilmecelerini çöz, kapıları tek tek aç!
+          </p>
+          <button class="btn btn--primary btn--glow" id="btnStartAdventure">Maceraya Başla ⚔️</button>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: INTERACTIVE CASTLE MAP -->
+      <section class="screen" id="mapScreen">
+        <div class="map-screen">
+          <div class="map-title-box">
+            <h2 class="font-accent" style="font-size: 2rem; color: var(--color-gold);">LUGUBRİYA KRALLIĞI</h2>
+            <p style="color: var(--color-text-muted);">Zindan kapılarını açmak ve Kraliçeyi kurtarmak için parıldayan kuleleri seç!</p>
+          </div>
+
+          <!-- Interactive SVG Map -->
+          <div class="map-container">
+            <div class="map-svg-wrapper">
+              <svg class="map-svg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Map Background Details (Stylized Mountains & Rivers) -->
+                <path d="M50,450 Q150,400 250,450 T450,450 T650,430 T800,450" fill="none" stroke="rgba(139, 92, 26, 0.08)" stroke-width="3" />
+                <path d="M0,100 Q100,150 300,100 T600,120 T800,80" fill="none" stroke="rgba(139, 92, 26, 0.08)" stroke-width="3" />
+                
+                <!-- River from dungeon -->
+                <path d="M 680,250 C 600,280 500,230 400,280 C 300,330 200,300 100,380" fill="none" stroke="rgba(59, 130, 246, 0.2)" stroke-width="12" stroke-linecap="round"/>
+
+                <!-- Ambient Floating Clouds -->
+                <g class="map-clouds-group" style="pointer-events: none;">
+                  <path class="map-cloud map-cloud--1" d="M 10,20 Q 25,5 40,20 Q 55,5 70,20 Q 80,30 70,40 L 10,40 Z" fill="rgba(255,255,255,0.75)" />
+                  <path class="map-cloud map-cloud--2" d="M 10,20 Q 25,5 40,20 Q 55,5 70,20 Q 80,30 70,40 L 10,40 Z" fill="rgba(255,255,255,0.6)" />
+                  <path class="map-cloud map-cloud--3" d="M 10,20 Q 25,5 40,20 Q 55,5 70,20 Q 80,30 70,40 L 10,40 Z" fill="rgba(255,255,255,0.65)" />
+                </g>
+
+                <!-- Connecting Path lines -->
+                <path id="path-1-2" class="map-path" d="M 120,380 L 250,220" />
+                <path id="path-2-3" class="map-path" d="M 250,220 L 400,330" />
+                <path id="path-3-4" class="map-path" d="M 400,330 L 550,180" />
+                <path id="path-4-5" class="map-path" d="M 550,180 L 680,250" />
+
+                <!-- TOWER 1: Sihirli Kalem (Start) -->
+                <g class="tower-node tower-node--active" id="node-1" transform="translate(120, 380)">
+                  <circle class="tower-circle" r="30" />
+                  <g class="tower-icon" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M-8,8 L4,-4 L8,-12 L0,-8 L-8,8 Z M-8,8 L-11,11 L-10,8 Z" />
+                    <path d="M-3,3 L3,-3" stroke-width="1.5" />
+                  </g>
+                  <text y="50" text-anchor="middle" class="tower-text">Sihirli Kalem</text>
+                </g>
+
+                <!-- TOWER 2: Lav Köprüsü -->
+                <g class="tower-node tower-node--locked" id="node-2" transform="translate(250, 220)">
+                  <circle class="tower-circle" r="30" />
+                  <g class="tower-icon" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round">
+                    <path d="M-15,6 L15,6 M-12,6 C-12,-5 12,-5 12,6 M-9,-5 L9,-5 M-12,-5 L-12,6 M12,-5 L12,6" />
+                  </g>
+                  <text y="50" text-anchor="middle" class="tower-text">Lav Köprüsü</text>
+                </g>
+
+                <!-- TOWER 3: Zümrüt Kulesi -->
+                <g class="tower-node tower-node--locked" id="node-3" transform="translate(400, 330)">
+                  <circle class="tower-circle" r="30" />
+                  <g class="tower-icon" stroke="currentColor" fill="none" stroke-width="2">
+                    <path d="M-9,9 L-6,-9 L-3,-9 L-1,-13 L1,-13 L3,-9 L6,-9 L9,9 Z M-6,-2 L6,-2 M-6,4 L6,4" />
+                    <polygon points="0,-7 -2,-3 0,1 2,-3" fill="var(--color-emerald)" opacity="0.8"/>
+                  </g>
+                  <text y="50" text-anchor="middle" class="tower-text">Zümrüt Kulesi</text>
+                </g>
+
+                <!-- TOWER 4: Muhafız Geçidi -->
+                <g class="tower-node tower-node--locked" id="node-4" transform="translate(550, 180)">
+                  <circle class="tower-circle" r="30" />
+                  <g class="tower-icon" stroke="currentColor" fill="none" stroke-width="2">
+                    <path d="M-8,-9 C-8,-9 8,-9 8,-9 C8,-1 6,6 0,11 C-6,6 -8,-1 -8,-9 Z" />
+                    <path d="M-10,-10 L10,10 M10,-10 L-10,10" stroke-width="1.5" opacity="0.6"/>
+                  </g>
+                  <text y="50" text-anchor="middle" class="tower-text">Muhafız Geçidi</text>
+                </g>
+
+                <!-- TOWER 5: Kraliçe'nin Hücresi (Final) -->
+                <g class="tower-node tower-node--locked" id="node-5" transform="translate(680, 250)">
+                  <circle class="tower-circle" r="34" />
+                  <g class="tower-icon" stroke="currentColor" fill="none" stroke-width="2" stroke-linejoin="round">
+                    <path d="M-10,8 L-10,2 L-6,5 L0,-4 L6,5 L10,2 L10,8 Z" />
+                    <circle cx="-10" cy="0" r="1.2" fill="currentColor"/>
+                    <circle cx="0" cy="-6" r="1.2" fill="currentColor"/>
+                    <circle cx="10" cy="0" r="1.2" fill="currentColor"/>
+                    <path d="M-10,8 L10,8" />
+                  </g>
+                  <text y="54" text-anchor="middle" class="tower-text" style="font-weight:bold;">Jayden</text>
+                </g>
+
+                <!-- Map Avatar (Young Apprentice walking the path) -->
+                <g id="mapAvatar" transform="translate(120, 380)" style="pointer-events: none;">
+                  <circle cx="0" cy="-20" r="16" fill="var(--color-gold-light)" stroke="#ffffff" stroke-width="2" style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));" />
+                  <text x="0" y="-14" text-anchor="middle" font-size="16" id="avatarEmoji">🧙‍♂️</text>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Legend/Keys -->
+            <div class="map-legend">
+              <div class="legend-item">
+                <span class="legend-dot legend-dot--locked"></span>
+                <span>Kilitli Zindan</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot legend-dot--active"></span>
+                <span>Aktif Görev</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot legend-dot--unlocked"></span>
+                <span>Açılmış Kapı</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: SUCCESS & CERTIFICATE GENERATION -->
+      <section class="screen" id="successScreen">
+        <div class="success-screen">
+          <div class="success-card glass-panel">
+            <div class="success-badge">👸🧝‍♀️💎</div>
+            <h2 class="success-title">Kraliçe Jayden Kurtarıldı!</h2>
+            <p class="success-text">
+              Harika bir iş çıkardın! Karşına çıkan tüm matematik bilmecelerini zekanla çözdün ve Zümrüt Kraliçe'yi özgürlüğüne kavuşturdun. İdilya Krallığı halkı sana minnettar!
+            </p>
+            
+            <!-- Certificate Info Form -->
+            <div class="certificate-form">
+              <p style="font-size: 0.95rem; color: var(--color-gold-light);">Sertifikana yazılacak ismini gir ve ödülünü indir:</p>
+              <input type="text" id="playerNameInput" class="cert-input" placeholder="İsmini Yaz..." maxlength="30" />
+              <button class="btn btn--primary btn--glow" id="btnDownloadCert">🏆 Kahramanlık Belgesini İndir</button>
+            </div>
+
+            <button class="btn btn--secondary" id="btnPlayAgain" style="margin-top: var(--space-lg);">Macerayı Baştan Oyna 🔄</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Dynamic Puzzle Detail Modal Overlay -->
+    <div class="puzzle-modal" id="puzzleModal">
+      <div class="puzzle-panel glass-panel" id="puzzlePanel">
+        <!-- Close button -->
+        <button class="icon-btn close-btn" id="btnCloseModal" aria-label="Kapat">&times;</button>
+        
+        <!-- Chapter Title & Task progress tracker -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm);">
+          <div class="font-accent text-gold" style="font-size: 0.9rem; letter-spacing: 0.1em;" id="chapterLabel">BÖLÜM 1</div>
+          <div class="text-emerald" style="font-size: 0.85rem; font-weight: bold; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; background: rgba(16, 185, 129, 0.05);" id="taskProgressLabel">Görev 1 / 2</div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); width: 100%;">
+          <h2 class="font-accent" style="font-size: 1.8rem; margin: 0;" id="puzzleTitle">Kapı Başlığı</h2>
+          <div class="padlock-wrapper" id="padlockWrapper">
+            <svg class="padlock-svg" width="36" height="36" viewBox="0 0 32 32">
+              <path class="lock-shackle" id="lockShackle" d="M8 12 V8 A8 8 0 0 1 24 8 V12" fill="none" stroke="var(--color-recher)" stroke-width="3" stroke-linecap="round"/>
+              <rect class="lock-body" id="lockBody" x="4" y="12" width="24" height="18" rx="4" fill="var(--bg-dark)" stroke="var(--color-recher)" stroke-width="3"/>
+              <path class="lock-keyhole" id="lockKeyhole" d="M16 17 A3 3 0 0 0 14 22 L14 26 L18 26 L18 22 A3 3 0 0 0 16 17" fill="var(--color-recher)"/>
+            </svg>
+            <svg class="key-svg" width="24" height="24" viewBox="0 0 24 24" id="magicKey" style="display: none; position: absolute; pointer-events: none;">
+              <path d="M7 10a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0-4a1 1 0 1 0 1 1 1 1 0 0 0-1-1zm13.3 4.29L12.41 18H9v-3.41l7.89-7.89a5 5 0 1 0 3.41 3.59z" fill="var(--color-gold)"/>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Story Chat bubble -->
+        <div class="dialogue-box">
+          <div class="char-avatar" id="speechAvatar">👑</div>
+          <div class="char-content">
+            <div class="char-name" id="speechName">Kral Recher</div>
+            <div class="char-speech" id="speechText">Diyalog metni buraya gelecek...</div>
+          </div>
+        </div>
+
+        <!-- Question Prompt -->
+        <div class="question-card">
+          <div class="question-title">ZİNDAN BİLMECESİ:</div>
+          <p class="question-text" id="questionText">Sorunun açıklaması buraya gelecek...</p>
+        </div>
+
+        <!-- Working Area: Render custom interactive components dynamically -->
+        <div class="vis-workarea" id="visWorkarea">
+          <!-- Dynamic Visualizer appends here -->
+        </div>
+
+        <!-- Answer inputs and control button -->
+        <div class="submission-bar">
+          <div class="input-container">
+            <label for="pInput" style="font-size: 0.9rem; font-weight: bold; color: var(--color-text-muted);">Cevabın:</label>
+            <input type="text" id="pInput" class="answer-input" placeholder="Sayı..." />
+          </div>
+          
+          <div class="flex gap-md" style="margin-top: 0.5rem;">
+            <button class="btn btn--secondary" id="btnShowHint">💡 İpucu Al</button>
+            <button class="btn btn--primary" id="btnSubmitAnswer">Kapıyı Aç 🗝️</button>
+          </div>
+        </div>
+
+        <!-- Alert messages/Hints/Solutions -->
+        <div class="info-box info-box--hint" id="hintBox">İpucu açıklaması...</div>
+        <div class="info-box info-box--solution" id="solutionBox">Çözüm açıklaması...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Tooltip for Castle Map -->
+  <div class="map-tooltip" id="mapTooltip"></div>
+
+  <!-- Main JavaScript File -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
