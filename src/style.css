@@ -257,13 +257,130 @@ header {
   opacity: 1;
 }
 
-.hero-screen {
+.hero-grid {
   min-height: calc(100vh - 120px);
+  display: grid;
+  grid-template-columns: 1.1fr 1.2fr;
+  gap: var(--space-xl);
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-left {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: var(--space-lg) 0;
+  text-align: center;
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.video-showcase {
+  width: 100%;
+  max-width: 560px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(217, 119, 6, 0.3); /* Gold border */
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  box-shadow: 0 20px 40px rgba(139, 92, 26, 0.15), 0 0 25px rgba(245, 158, 11, 0.1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.video-showcase:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(139, 92, 26, 0.25), 0 0 35px rgba(245, 158, 11, 0.2);
+  border-color: rgba(217, 119, 6, 0.6);
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-controls-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.video-wrapper:hover .video-controls-overlay,
+.video-wrapper:focus-within .video-controls-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.video-control-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  pointer-events: auto;
+}
+
+.video-control-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.video-control-btn:active {
+  transform: scale(0.95);
+}
+
+.video-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.video-caption {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-gold-dark);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 /* 3D Floating Book Cover */
@@ -1655,4 +1772,21 @@ header {
   0% { transform: translate(0, 0) scale(1) rotate(0deg); }
   50% { transform: translate(50px, -30px) scale(1.08) rotate(180deg); }
   100% { transform: translate(-30px, 60px) scale(0.92) rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    padding: var(--space-md) var(--space-sm);
+    min-height: auto;
+  }
+  
+  .hero-right {
+    order: -1;
+  }
+  
+  .video-showcase {
+    max-width: 100%;
+  }
 }

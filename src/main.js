@@ -98,6 +98,44 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Teaser Video Controls
+  const teaserVideo = document.getElementById('teaserVideo');
+  const btnPlayPauseVideo = document.getElementById('btnPlayPauseVideo');
+  const btnMuteVideo = document.getElementById('btnMuteVideo');
+
+  if (teaserVideo && btnPlayPauseVideo && btnMuteVideo) {
+    btnPlayPauseVideo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (teaserVideo.paused) {
+        teaserVideo.play().catch(err => console.log("Video play failed:", err));
+        btnPlayPauseVideo.innerHTML = '<span class="video-icon">⏸️</span>';
+      } else {
+        teaserVideo.pause();
+        btnPlayPauseVideo.innerHTML = '<span class="video-icon">▶️</span>';
+      }
+    });
+
+    btnMuteVideo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      teaserVideo.muted = !teaserVideo.muted;
+      if (teaserVideo.muted) {
+        btnMuteVideo.innerHTML = '<span class="video-icon">🔇</span>';
+      } else {
+        btnMuteVideo.innerHTML = '<span class="video-icon">🔊</span>';
+      }
+    });
+
+    teaserVideo.addEventListener('play', () => {
+      btnPlayPauseVideo.innerHTML = '<span class="video-icon">⏸️</span>';
+    });
+    teaserVideo.addEventListener('pause', () => {
+      btnPlayPauseVideo.innerHTML = '<span class="video-icon">▶️</span>';
+    });
+    teaserVideo.addEventListener('ended', () => {
+      btnPlayPauseVideo.innerHTML = '<span class="video-icon">▶️</span>';
+    });
+  }
+
   setupMapTooltips();
 
   // Update starting states
@@ -121,6 +159,12 @@ function switchScreen(fromScreen, toScreen) {
 function startAdventure() {
   playSoundEffect(playClick);
   
+  // Pause teaser video if playing
+  const teaserVideo = document.getElementById('teaserVideo');
+  if (teaserVideo) {
+    teaserVideo.pause();
+  }
+
   // Unlock ambient audio if unmuted
   if (!isMuted) {
     setTimeout(() => {

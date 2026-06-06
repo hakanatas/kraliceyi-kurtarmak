@@ -65,24 +65,48 @@
       
       <!-- SCREEN 1: HERO / LANDING PAGE -->
       <section class="screen screen--active" id="heroScreen">
-        <div class="hero-screen">
-          <!-- Floating 3D Book Cover -->
-          <div class="book-container" id="landingBook">
-            <div class="book">
-              <div class="book-cover">
-                <div class="book-subtitle">Matematik Macerası</div>
-                <div class="book-title">Kraliçeyi<br/>Kurtarmak</div>
-                <div class="book-ornament">💎</div>
-                <div class="book-author">Vladimir Tumanov</div>
+        <div class="hero-grid">
+          <div class="hero-left">
+            <!-- Floating 3D Book Cover -->
+            <div class="book-container" id="landingBook">
+              <div class="book">
+                <div class="book-cover">
+                  <div class="book-subtitle">Matematik Macerası</div>
+                  <div class="book-title">Kraliçeyi<br/>Kurtarmak</div>
+                  <div class="book-ornament">💎</div>
+                  <div class="book-author">Vladimir Tumanov</div>
+                </div>
+              </div>
+            </div>
+
+            <h1 class="hero-title">Matematiğin Sihirli Dünyasına Hoş Geldin!</h1>
+            <p class="hero-subtitle">
+              Aleks ve arkadaşlarının gizemli dünyasına ortak ol. Kral Recher'in zindanlarında hapsedilen Kraliçe Jayden'ı kurtarmak için matematik bilmecelerini çöz, kapıları tek tek aç!
+            </p>
+            <button class="btn btn--primary btn--glow" id="btnStartAdventure">Maceraya Başla ⚔️</button>
+          </div>
+
+          <div class="hero-right">
+            <div class="video-showcase">
+              <div class="video-wrapper">
+                <video id="teaserVideo" playsinline autoplay muted preload="auto">
+                  <source src="/intro.mp4" type="video/mp4" />
+                  Tarayıcınız video etiketini desteklemiyor.
+                </video>
+                <div class="video-controls-overlay">
+                  <button class="video-control-btn" id="btnPlayPauseVideo" aria-label="Oynat / Duraklat" title="Oynat / Duraklat">
+                    <span class="video-icon">⏸️</span>
+                  </button>
+                  <button class="video-control-btn" id="btnMuteVideo" aria-label="Sesi Aç / Kapat" title="Sesi Aç / Kapat">
+                    <span class="video-icon">🔇</span>
+                  </button>
+                </div>
+              </div>
+              <div class="video-caption">
+                🎬 Kitap Tanıtım Videosu - İzle ve Macerayı Hisset!
               </div>
             </div>
           </div>
-
-          <h1 class="hero-title">Matematiğin Sihirli Dünyasına Hoş Geldin!</h1>
-          <p class="hero-subtitle">
-            Aleks ve arkadaşlarının gizemli dünyasına ortak ol. Kral Recher'in zindanlarında hapsedilen Kraliçe Jayden'ı kurtarmak için matematik bilmecelerini çöz, kapıları tek tek aç!
-          </p>
-          <button class="btn btn--primary btn--glow" id="btnStartAdventure">Maceraya Başla ⚔️</button>
         </div>
       </section>
 
